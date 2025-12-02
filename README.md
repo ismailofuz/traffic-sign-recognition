@@ -1,4 +1,5 @@
 # 🚦 Traffic Sign Recognition (GTSRB)
+
 **Neural Networks Course Project**
 
 This project implements a Convolutional Neural Network (CNN) to classify German traffic signs using the **GTSRB (German Traffic Sign Recognition Benchmark)** dataset.
@@ -9,10 +10,11 @@ This project implements a Convolutional Neural Network (CNN) to classify German 
 
 The dataset was downloaded from **Kaggle**:
 
-🔗 **GTSRB – German Traffic Sign Recognition Benchmark**  
+🔗 **GTSRB – German Traffic Sign Recognition Benchmark**
 https://www.kaggle.com/datasets/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign/
 
 Dataset contents:
+
 - 43 traffic sign classes
 - Train, Test, and Meta folders
 - Thousands of labeled images
@@ -103,5 +105,5 @@ Then open:
 
 ## 👨‍💻 Author
 
-**Your Name**  
+Sirojiddin Ismoilov
 Neural Networks Course Project
