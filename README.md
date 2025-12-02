@@ -95,7 +95,7 @@ Then open:
 ## 📁 Project Structure
 
 ```
-├── Traffic_Sign_Recognition.ipynb   # Training notebook
+├── German Traffic Sign Recognition Benchmark.ipynb   # Training notebook
 ├── app.py                           # Streamlit web app
 ├── MODEL_GERMAN_TRAFFIC_SIGN.h5     # Trained model
 ├── README.md                        # Project documentation
