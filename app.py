@@ -3,9 +3,15 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 
+# ----------------------------
+# Load trained model
+# ----------------------------
 model = tf.keras.models.load_model("MODEL_TRAFFIC_SIGN_RECOGNITION.h5")
 
-classes = [
+# ----------------------------
+# Traffic sign class labels
+# ----------------------------
+CLASSES = [
     "Speed limit (20km/h)",
     "Speed limit (30km/h)",
     "Speed limit (50km/h)",
@@ -51,22 +57,54 @@ classes = [
     "End of no passing vehicles > 3.5 tons"
 ]
 
-st.title("🚦 Traffic Sign Recognition Web App")
+# ----------------------------
+# Streamlit UI
+# ----------------------------
+st.set_page_config(page_title="Traffic Sign Recognition", layout="centered")
+st.title("🚦 Traffic Sign Recognition")
+st.write("Upload an image. The model will classify the traffic sign.")
 
-uploaded_file = st.file_uploader("Upload an image", type=["jpg", "png", "jpeg"])
+# ----------------------------
+# File uploader (SAFE handling)
+# ----------------------------
+uploaded_file = st.file_uploader(
+    "Upload an image (JPG, PNG, JPEG)",
+    type=["jpg", "png", "jpeg"],
+    accept_multiple_files=False
+)
 
-if uploaded_file is not None:
+if uploaded_file is None:
+    st.info("Please upload a traffic sign image to get a prediction.")
+    st.stop()
 
-    st.image(uploaded_file, width=300, caption="Uploaded image")
+# ----------------------------
+# Display uploaded image
+# ----------------------------
+st.image(uploaded_file, width=300, caption="Uploaded image")
 
-    img = image.load_img(uploaded_file, target_size=(30, 30))
-    img = image.img_to_array(img)
-    img = img / 255.0
-    img = np.expand_dims(img, axis=0)
+# ----------------------------
+# Image preprocessing
+# ----------------------------
+img = image.load_img(uploaded_file, target_size=(30, 30))
+img = image.img_to_array(img)
+img = img / 255.0              # normalization (IMPORTANT)
+img = np.expand_dims(img, axis=0)
 
-    pred = np.argmax(model.predict(img), axis=1)[0]
+# ----------------------------
+# Model prediction
+# ----------------------------
+predictions = model.predict(img)
+confidence = float(np.max(predictions))
+predicted_class = int(np.argmax(predictions))
 
-    if pred < len(classes):
-        st.success(f"Prediction: {classes[pred]}")
-    else:
-        st.error("This image does not appear to be a traffic sign.")
+# ----------------------------
+# Confidence-based rejection
+# ----------------------------
+CONFIDENCE_THRESHOLD = 0.6
+
+if confidence < CONFIDENCE_THRESHOLD:
+    st.error("❌ This image does not appear to be a traffic sign.")
+    st.caption(f"Model confidence: {confidence:.2f}")
+else:
+    st.success(f"✅ Prediction: {CLASSES[predicted_class]}")
+    st.caption(f"Confidence: {confidence:.2f}")
